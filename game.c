@@ -50,6 +50,13 @@ void newRound(gameState *s)
     freeCardPtrArr(s->compBoard, FIELDSIZE);
 }
 
+void fillNull(card *arr[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = NULL;
+    }
+}
 void initGame(gameState *s)
 {
     s->isOver = NO;
@@ -60,7 +67,8 @@ void initGame(gameState *s)
     s->compWins = 0;
     s->hasPlayStood = NO;
     s->hasCompStood = NO;
-    //TODO the rest
+    fillNull(s->playBoard, FIELDSIZE);
+    fillNull(s->compBoard, FIELDSIZE);
 }
 
 void freeCardPtrArr(card *arr[], int len)
