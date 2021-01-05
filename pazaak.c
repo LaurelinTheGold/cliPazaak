@@ -3,11 +3,13 @@
 
 #define STDINBUFF 3
 
+//gets the char from a string and splitting off newline
 char getCharFromString(char *str)
 {
     return 'a'; //TODO
 }
 
+//gets action by getting char from input str and doing the action
 void parseAction(char *str, gameState *s)
 {
     switch (getCharFromString(str))
@@ -36,7 +38,7 @@ void parseAction(char *str, gameState *s)
     default:
         printf("Invalid Character, Try Again!\n");
     }
-    return; //TODO
+    return;
 }
 
 //inits the bois, then loop reads actions off stdin until the game ends or player quits

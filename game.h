@@ -39,12 +39,6 @@ typedef struct
     card *compHand[HANDSIZE];
 } gameState;
 
-//these should be private in .c not header
-void switchTurn(gameState *s);  //
-void recalcScore(gameState *s); //
-void playDeck(gameState *s);    //need deck?
-void newGame(gameState *s);
-
 void initGame(gameState *s);
 void freeGame(gameState *s);
 

@@ -8,7 +8,7 @@
 
 typedef struct
 {
-    int16_t value;
+    int8_t value;
 
 } card;
 
