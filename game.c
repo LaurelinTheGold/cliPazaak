@@ -1,11 +1,5 @@
 #include "game.h"
 
-enum turnTok
-{
-    PLAY,
-    COMP
-};
-
 typedef struct
 {
     enum fakeBool isOver;
@@ -16,7 +10,7 @@ typedef struct
     uint8_t compWins;
     enum fakeBool hasPlayStood;
     enum fakeBool hasCompStood;
-    card *playBoard[FIELDSIZE]; //make list??
+    card *playBoard[FIELDSIZE];
     card *compBoard[FIELDSIZE];
     card *playHand[HANDSIZE];
     card *compHand[HANDSIZE];
@@ -24,6 +18,7 @@ typedef struct
 
 void switchTurn(gameState *s)
 {
+    s->turn = (s->turn == PLAY) ? COMP : PLAY;
 }
 
 int8_t boardScore(card *board[])
@@ -41,7 +36,7 @@ void recalcScore(gameState *s) //
     s->compScore = boardScore(s->compBoard);
 }
 
-void playDeck(gameState *s); //need deck?
+void playDeck(gameState *s); //need deck? TODO
 
 //procs after a round ends
 void newRound(gameState *s)
@@ -51,7 +46,8 @@ void newRound(gameState *s)
     s->compScore = 0;
     s->hasPlayStood = NO;
     s->hasCompStood = NO;
-    //clear playBoard and compBoard TODO
+    freeCardPtrArr(s->playBoard, FIELDSIZE);
+    freeCardPtrArr(s->compBoard, FIELDSIZE);
 }
 
 void initGame(gameState *s)
@@ -66,12 +62,21 @@ void initGame(gameState *s)
     s->hasCompStood = NO;
     //TODO the rest
 }
+
+void freeCardPtrArr(card *arr[], int len)
+{
+    for (int i = 0; i < len; i++)
+    {
+        free(arr[i]);
+        arr[i] = NULL;
+    }
+}
 void freeGame(gameState *s) //TODO also free either list elements or array entries
 {
-    free(s->playBoard);
-    free(s->compBoard);
-    free(s->playHand);
-    free(s->compHand);
+    freeCardPtrArr(s->playBoard, FIELDSIZE);
+    freeCardPtrArr(s->compBoard, FIELDSIZE);
+    freeCardPtrArr(s->playHand, HANDSIZE);
+    freeCardPtrArr(s->compHand, HANDSIZE);
 }
 
 //plays hand card based on the turn of the game

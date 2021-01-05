@@ -33,7 +33,7 @@ typedef struct
     uint8_t compWins;
     enum fakeBool hasPlayStood;
     enum fakeBool hasCompStood;
-    card *playBoard[FIELDSIZE]; //make list??
+    card *playBoard[FIELDSIZE];
     card *compBoard[FIELDSIZE];
     card *playHand[HANDSIZE];
     card *compHand[HANDSIZE];
