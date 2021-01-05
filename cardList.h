@@ -6,4 +6,7 @@
 #include <stdio.h>
 #include "stdint.h"
 
+int getSize();
+void addCard();
+
 #endif

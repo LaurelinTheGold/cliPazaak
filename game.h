@@ -17,7 +17,7 @@ enum turnTok
     COMP
 };
 
-enum hasStood
+enum fakeBool
 {
     YES,
     NO
@@ -25,14 +25,15 @@ enum hasStood
 
 typedef struct
 {
+    enum fakeBool isOver;
     enum turnTok turn;
     int8_t playScore;
     int8_t compScore;
     uint8_t playWins;
     uint8_t compWins;
-    enum hasStood playStood;
-    enum hasStood compStood;
-    card *playBoard[FIELDSIZE];
+    enum fakeBool playStood;
+    enum fakeBool compStood;
+    card *playBoard[FIELDSIZE]; //make list??
     card *compBoard[FIELDSIZE];
     card *playHand[HANDSIZE];
     card *compHand[HANDSIZE];
@@ -44,8 +45,8 @@ void recalcScore(gameState *s); //
 void playDeck(gameState *s);    //need deck?
 void newGame(gameState *s);
 
-void init();
-void freeStruct(gameState *s);
+void initGame(gameState *s);
+void freeGame(gameState *s);
 
 void playHand(uint8_t handIdx, gameState *s); //plays (1 indexed) hand card based on the turn of the game
 void endTurn(gameState *s);
