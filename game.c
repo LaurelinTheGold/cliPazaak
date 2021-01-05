@@ -32,7 +32,7 @@ void freeCardPtrArr(card *arr[], int len)
     }
 }
 
-void prtCardArr (card* arr[], int len, char** dest)
+void prtCardArr(card *arr[], int len, char **dest)
 {
     for (int i = 0; i < len; i++)
     {
@@ -48,7 +48,7 @@ void printDebug(gameState *s)
     char dest2[1000];
     char dest3[1000];
     char dest4[1000];
-    prtCardArr(s->playBoard, FIELDSIZE, &dest1); 
+    prtCardArr(s->playBoard, FIELDSIZE, &dest1);
     prtCardArr(s->compBoard, FIELDSIZE, &dest2);
     prtCardArr(s->playHand, HANDSIZE, &dest3);
     prtCardArr(s->compHand, HANDSIZE, &dest4);
@@ -116,7 +116,6 @@ void initGame(gameState *s)
     fillNull(s->playBoard, FIELDSIZE);
     fillNull(s->compBoard, FIELDSIZE);
 }
-
 
 void freeGame(gameState *s) //TODO also free either list elements or array entries
 {
