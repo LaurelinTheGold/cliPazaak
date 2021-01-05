@@ -1,5 +1,6 @@
 #include "game.h"
 
+/*
 typedef struct
 {
     enum fakeBool isOver;
@@ -15,21 +16,50 @@ typedef struct
     card *playHand[HANDSIZE];
     card *compHand[HANDSIZE];
 } gameState;
+*/
 
-static inline const char *prtBool(enum fakeBool fB)
+static inline char *prtBool(enum fakeBool fB)
 {
     return (fB == YES) ? "YES" : "NO";
 }
 
+void freeCardPtrArr(card *arr[], int len)
+{
+    for (int i = 0; i < len; i++)
+    {
+        free(arr[i]);
+        arr[i] = NULL;
+    }
+}
+
+void prtCardArr (card* arr[], int len, char** dest)
+{
+    for (int i = 0; i < len; i++)
+    {
+        char cardStr[10];
+        sprintf(cardStr, "%d ", arr[i]->value);
+        strcat(*dest, cardStr);
+    }
+}
+
 void printDebug(gameState *s)
 {
+    char dest1[1000];
+    char dest2[1000];
+    char dest3[1000];
+    char dest4[1000];
+    prtCardArr(s->playBoard, FIELDSIZE, &dest1); 
+    prtCardArr(s->compBoard, FIELDSIZE, &dest2);
+    prtCardArr(s->playHand, HANDSIZE, &dest3);
+    prtCardArr(s->compHand, HANDSIZE, &dest4);
     printf(
         "over? %s turn? %s pScore:%d cScore:%d pWins:%d cWins%d\n"
         "pStood? %s cStood? %s\npBoard: %s\n cBoard: %s\n"
         "pHand: %s\n cHand: %s\n",
         prtBool(s->isOver), (s->turn == PLAY) ? "PLAY" : "COMP",
         s->playScore, s->compScore, s->playWins, s->compWins,
-        prtBool(s->hasPlayStood), prtBool(s->hasCompStood));
+        prtBool(s->hasPlayStood), prtBool(s->hasCompStood),
+        dest1, dest2, dest3, dest4);
 }
 
 void switchTurn(gameState *s)
@@ -87,14 +117,7 @@ void initGame(gameState *s)
     fillNull(s->compBoard, FIELDSIZE);
 }
 
-void freeCardPtrArr(card *arr[], int len)
-{
-    for (int i = 0; i < len; i++)
-    {
-        free(arr[i]);
-        arr[i] = NULL;
-    }
-}
+
 void freeGame(gameState *s) //TODO also free either list elements or array entries
 {
     freeCardPtrArr(s->playBoard, FIELDSIZE);
