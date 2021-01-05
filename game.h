@@ -31,8 +31,8 @@ typedef struct
     int8_t compScore;
     uint8_t playWins;
     uint8_t compWins;
-    enum fakeBool playStood;
-    enum fakeBool compStood;
+    enum fakeBool hasPlayStood;
+    enum fakeBool hasCompStood;
     card *playBoard[FIELDSIZE]; //make list??
     card *compBoard[FIELDSIZE];
     card *playHand[HANDSIZE];
@@ -48,9 +48,11 @@ void newGame(gameState *s);
 void initGame(gameState *s);
 void freeGame(gameState *s);
 
-void playHand(uint8_t handIdx, gameState *s); //plays (1 indexed) hand card based on the turn of the game
+//plays hand card based on the turn of the game
+//(0 indexed, translation done by pazaak.c)
+void playHand(uint8_t handIdx, gameState *s);
 void endTurn(gameState *s);
 void stand(gameState *s);
-void quit(gameState *s);
+void quitGame(gameState *s);
 
 #endif

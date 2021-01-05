@@ -3,11 +3,44 @@
 
 #define STDINBUFF 3
 
+char getCharFromString(char *str)
+{
+    return 'a'; //TODO
+}
+
 void parseAction(char *str, gameState *s)
 {
+    switch (getCharFromString(str))
+    {
+    case 'q':
+        quitGame(s);
+        break;
+    case 's':
+        stand(s);
+        break;
+    case 'e':
+        endTurn(s);
+        break;
+    case '1':
+        playHand(0, s);
+        break;
+    case '2':
+        playHand(1, s);
+        break;
+    case '3':
+        playHand(2, s);
+        break;
+    case '4':
+        playHand(3, s);
+        break;
+    default:
+        printf("Invalid Character, Try Again!\n");
+    }
     return; //TODO
 }
 
+//inits the bois, then loop reads actions off stdin until the game ends or player quits
+//then frees everyone and exits
 int main(int argc, char *argv[])
 {
     gameState *state = (gameState *)malloc(sizeof(gameState *));
