@@ -1,17 +1,17 @@
 CFLAGS =-g -Wall -lm 
 CC = gcc
 
-pazaak: pazaak.o token.o LC4.o
-	${CC} ${CFLAGS} -o pazaak pazaak.o token.o #LC4.o 
+pazaak: pazaak.o game.o card.o
+	${CC} ${CFLAGS} -o pazaak pazaak.o game.o card.o 
 
-pazaak.o: pazaak.c token.h LC4.h
+pazaak.o: pazaak.c game.h card.h
 	$(CC) $(CFLAGS) -c pazaak.c
 
-token.o: token.c token.h
-	$(CC) $(CFLAGS) -c token.c 
+game.o: game.c game.h
+	$(CC) $(CFLAGS) -c game.c 
 
-LC4.o: LC4.c LC4.h
-	$(CC) $(CFLAGS) -c LC4.c
+card.o: card.c card.h
+	$(CC) $(CFLAGS) -c card.c
 
 all: pazaak
 

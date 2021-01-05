@@ -16,6 +16,22 @@ typedef struct
     card *compHand[HANDSIZE];
 } gameState;
 
+static inline const char *prtBool(enum fakeBool fB)
+{
+    return (fB == YES) ? "YES" : "NO";
+}
+
+void printDebug(gameState *s)
+{
+    printf(
+        "over? %s turn? %s pScore:%d cScore:%d pWins:%d cWins%d\n"
+        "pStood? %s cStood? %s\npBoard: %s\n cBoard: %s\n"
+        "pHand: %s\n cHand: %s\n",
+        prtBool(s->isOver), (s->turn == PLAY) ? "PLAY" : "COMP",
+        s->playScore, s->compScore, s->playWins, s->compWins,
+        prtBool(s->hasPlayStood), prtBool(s->hasCompStood));
+}
+
 void switchTurn(gameState *s)
 {
     s->turn = (s->turn == PLAY) ? COMP : PLAY;
