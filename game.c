@@ -71,8 +71,8 @@ void printDebug(gameState *s)
         prtBool(s->hasPlayStood), prtBool(s->hasCompStood),
         // dest1, dest2, dest3, dest4);
         dest1, dest2);
-    free(dest1);
-    free(dest2);
+    // free(dest1);
+    // free(dest2);
 }
 
 //frees cardptr array by freeing each nonnull entry and then nulling
