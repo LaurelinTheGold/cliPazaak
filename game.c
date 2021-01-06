@@ -45,26 +45,26 @@ void prtCardArr(card *arr[], int8_t len, char **dest)
     }
 }
 // Prints out the game state as a long string
-void printDebug(gameState *s)
-{
-    char dest1[1000];
-    char dest2[1000];
-    char dest3[1000];
-    char dest4[1000];
-    prtCardArr(s->playBoard, FIELDSIZE, &dest1);
-    prtCardArr(s->compBoard, FIELDSIZE, &dest2);
-    // prtCardArr(s->playHand, HANDSIZE, &dest3);
-    // prtCardArr(s->compHand, HANDSIZE, &dest4);
-    printf(
-        "over? %s turn? %s pScore:%d cScore:%d pWins:%d cWins%d\n"
-        "pStood? %s cStood? %s\npBoard: %s\n cBoard: %s\n"
-        "pHand: %s\n cHand: %s\n",
-        prtBool(s->isOver), (s->turn == PLAY) ? "PLAY" : "COMP",
-        s->playScore, s->compScore, s->playWins, s->compWins,
-        prtBool(s->hasPlayStood), prtBool(s->hasCompStood),
-        // dest1, dest2, dest3, dest4);
-        dest1, dest2);
-}
+// void printDebug(gameState *s)
+// {
+//     char dest1[1000];
+//     char dest2[1000];
+//     char dest3[1000];
+//     char dest4[1000];
+//     prtCardArr(s->playBoard, FIELDSIZE, &dest1);
+//     prtCardArr(s->compBoard, FIELDSIZE, &dest2);
+//     // prtCardArr(s->playHand, HANDSIZE, &dest3);
+//     // prtCardArr(s->compHand, HANDSIZE, &dest4);
+//     printf(
+//         "over? %s turn? %s pScore:%d cScore:%d pWins:%d cWins%d\n"
+//         "pStood? %s cStood? %s\npBoard: %s\n cBoard: %s\n"
+//         "pHand: %s\n cHand: %s\n",
+//         prtBool(s->isOver), (s->turn == PLAY) ? "PLAY" : "COMP",
+//         s->playScore, s->compScore, s->playWins, s->compWins,
+//         prtBool(s->hasPlayStood), prtBool(s->hasCompStood),
+//         // dest1, dest2, dest3, dest4);
+//         dest1, dest2);
+// }
 
 //frees cardptr array by freeing each nonnull entry and then nulling
 void freeCardPtrArr(card *arr[], int8_t len)
