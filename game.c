@@ -78,7 +78,7 @@ void freeCardPtrArr(card *arr[], int8_t len)
     }
 }
 
-//implict assumes turn has 2 states only TODO
+//implict assumes turn has 2 states only TODO, case on stood
 void switchTurn(gameState *s)
 {
     s->turn = (s->turn == PLAY) ? COMP : PLAY;
@@ -162,21 +162,55 @@ void quitGame(gameState *s)
 
 void endTurn(gameState *s)
 {
+    if ((s->turn == PLAY && s->hasPlayStood == YES) || (s->turn == COMP && s->hasCompStood == YES))
+    {
+        printf("Should be unreachable Error! 0\n");
+    }
     recalcScore(s);
+    switch (checkConds(s, 1))
+    {
+    case -1: //loss, add win to other player, start new game, happens when over 20
+        addWin(s, (s->turn == PLAY) ? COMP : PLAY);
+        newRound(s);
+        break;
+    case 0: //nothing, switch turns
+        switchTurn(s);
+        break;
+    case 1: //win, happens with opponent already stood, add win to me, start new game.
+        addWin(s, (s->turn == COMP) ? COMP : PLAY);
+        newRound(s);
+        break;
+    }
 }
 
 //change to stand?, Recalc Score, check winconds
 void stand(gameState *s)
 {
+    if ((s->turn == PLAY && s->hasPlayStood == YES) || (s->turn == COMP && s->hasCompStood == YES))
+    {
+        printf("Should be unreachable Error! 1\n");
+    }
+    if (s->turn == PLAY)
+    {
+        s->hasPlayStood = YES;
+    }
+    else
+    {
+        s->hasCompStood = YES;
+    }
     recalcScore(s);
     switch (checkConds(s, 0))
     {
-    case -1: //loss, add win to other player, start new game
-
+    case -1: //loss, add win to other player, start new game, happens when over 20
+        addWin(s, (s->turn == PLAY) ? COMP : PLAY);
+        newRound(s);
         break;
-    case 0: //nothing, stand me and switch turns
+    case 0: //nothing, switch turns
+        switchTurn(s);
         break;
     case 1: //win, happens with opponent already stood, add win to me, start new game.
+        addWin(s, (s->turn == COMP) ? COMP : PLAY);
+        newRound(s);
         break;
     }
 }
@@ -185,4 +219,38 @@ void stand(gameState *s)
 int8_t checkConds(gameState *s, int8_t action) //action: 0 is stand, 1 is end turn, 2 is played card so if 20 end
 {
     return 0; //TODO
+}
+
+//adds a point checking for game conds
+void addWin(gameState *s, enum turnTok tt)
+{
+    if (tt == PLAY)
+    {
+        if (s->playWins < 2)
+        {
+            s->playWins++;
+        }
+        else
+        {
+            s->isOver = YES;
+            printf("Player has won the match!\n");
+        }
+    }
+    else if (tt == COMP)
+    {
+        if (s->compWins < 2)
+        {
+            s->compWins++;
+        }
+        else
+        {
+            s->isOver = YES;
+            printf("Computer has won the match!\n");
+        }
+    }
+    else
+    {
+        //error
+        printf("Error fallthrough else 3\n");
+    }
 }
