@@ -43,6 +43,10 @@ char *prtCardArr(card *arr[], int len)
             sprintf(cardStr, "%d ", arr[i]->value);
             strcat(retStr, cardStr);
         }
+        else
+        {
+            strcat(retStr, "");
+        }
     }
     return retStr;
 }
