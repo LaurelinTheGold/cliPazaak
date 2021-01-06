@@ -47,7 +47,7 @@ void prtCardArr(card *arr[], int len, char *dest[])
 // Prints out the game state as a long string
 void printDebug(gameState *s)
 {
-    char dest1[1000];
+    char *dest1;
     char dest2[1000];
     char dest3[1000];
     char dest4[1000];
