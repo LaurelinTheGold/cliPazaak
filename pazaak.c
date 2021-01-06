@@ -14,6 +14,7 @@ char getCharFromString(char *str)
 //gets action by getting char from input str and doing the action
 void parseAction(char *str, gameState *s)
 {
+    /*
     switch (getCharFromString(str))
     {
     case 'q':
@@ -40,6 +41,8 @@ void parseAction(char *str, gameState *s)
     default:
         printf("Invalid Character, Try Again!\n");
     }
+    */
+    printf("%c\n", getCharFromString(str));
     return;
 }
 
