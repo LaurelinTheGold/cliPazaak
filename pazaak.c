@@ -50,7 +50,7 @@ void parseAction(char *str, gameState *s)
 //then frees everyone and exits
 int main(int argc, char *argv[])
 {
-    gameState *state = (gameState *)malloc(sizeof(gameState *));
+    gameState *state = (gameState *)malloc(sizeof(gameState));
     initGame(state);
     char input[STDINBUFF];
     while (state->isOver != YES)
