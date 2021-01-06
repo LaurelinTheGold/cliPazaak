@@ -23,18 +23,18 @@ void parseAction(char *str, gameState *s)
     case 'e':
         endTurn(s);
         break;
-    case '1':
-        playHand(0, s);
-        break;
-    case '2':
-        playHand(1, s);
-        break;
-    case '3':
-        playHand(2, s);
-        break;
-    case '4':
-        playHand(3, s);
-        break;
+    // case '1':
+    //     playHand(0, s);
+    //     break;
+    // case '2':
+    //     playHand(1, s);
+    //     break;
+    // case '3':
+    //     playHand(2, s);
+    //     break;
+    // case '4':
+    //     playHand(3, s);
+    //     break;
     default:
         printf("Invalid Character, Try Again!\n");
     }

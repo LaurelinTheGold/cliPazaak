@@ -35,8 +35,8 @@ typedef struct
     enum fakeBool hasCompStood;
     card *playBoard[FIELDSIZE];
     card *compBoard[FIELDSIZE];
-    card *playHand[HANDSIZE];
-    card *compHand[HANDSIZE];
+    // card *playHand[HANDSIZE];
+    // card *compHand[HANDSIZE];
 } gameState;
 
 void initGame(gameState *s);
@@ -44,7 +44,8 @@ void freeGame(gameState *s);
 
 //plays hand card based on the turn of the game
 //(0 indexed, translation done by pazaak.c)
-void playHand(uint8_t handIdx, gameState *s);
+// void playHand(uint8_t handIdx, gameState *s);
+
 void endTurn(gameState *s);
 void stand(gameState *s);
 void quitGame(gameState *s);

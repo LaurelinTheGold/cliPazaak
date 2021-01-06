@@ -1,5 +1,7 @@
 #include "game.h"
 
+//START OF TESTING BY IGNORING EXISTENCE OF HAND
+
 /*
 typedef struct
 {
@@ -18,30 +20,26 @@ typedef struct
 } gameState;
 */
 
+//for debugging
 static inline char *prtBool(enum fakeBool fB)
 {
     return (fB == YES) ? "YES" : "NO";
 }
-
-void freeCardPtrArr(card *arr[], int len)
-{
-    for (int i = 0; i < len; i++)
-    {
-        free(arr[i]);
-        arr[i] = NULL;
-    }
-}
-
+//traverses array start to end
+//writes each val to a temp string before joining with main string
 void prtCardArr(card *arr[], int len, char **dest)
 {
     for (int i = 0; i < len; i++)
     {
-        char cardStr[10];
-        sprintf(cardStr, "%d ", arr[i]->value);
-        strcat(*dest, cardStr);
+        if (arr[i] != NULL)
+        {
+            char cardStr[10];
+            sprintf(cardStr, "%d ", arr[i]->value);
+            strcat(*dest, cardStr);
+        }
     }
 }
-
+// Prints out the game state as a long string
 void printDebug(gameState *s)
 {
     char dest1[1000];
@@ -62,6 +60,19 @@ void printDebug(gameState *s)
         dest1, dest2, dest3, dest4);
 }
 
+//frees cardptr array by freeing each nonnull entry and then nulling
+void freeCardPtrArr(card *arr[], int len)
+{
+    for (int i = 0; i < len; i++)
+    {
+        if (arr[i] != NULL)
+        {
+            free(arr[i]);
+        }
+        arr[i] = NULL;
+    }
+}
+
 void switchTurn(gameState *s)
 {
     s->turn = (s->turn == PLAY) ? COMP : PLAY;
@@ -72,7 +83,10 @@ int8_t boardScore(card *board[])
     int8_t temp = 0;
     for (int i = 0; i < FIELDSIZE; i++)
     {
-        temp += board[i]->value;
+        if (board[i] != NULL)
+        {
+            temp += board[i]->value;
+        }
     }
     return temp;
 }
@@ -96,6 +110,7 @@ void newRound(gameState *s)
     freeCardPtrArr(s->compBoard, FIELDSIZE);
 }
 
+//Only called at init otherwise could cause memory leaks
 void fillNull(card *arr[], int size)
 {
     for (int i = 0; i < size; i++)
