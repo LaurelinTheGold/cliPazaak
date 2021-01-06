@@ -34,7 +34,7 @@ static inline char *prtBool(enum fakeBool fB)
 //writes each val to a temp string before joining with main string
 char *prtCardArr(card *arr[], int len)
 {
-    char *retStr = (char *)malloc(1000 * sizeof(char));
+    char retStr[1024] = "";
     // retStr = "!!";
     for (int i = 0; i < len; i++)
     {
