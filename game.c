@@ -1,6 +1,7 @@
 #include "game.h"
 
 //START OF TESTING BY IGNORING EXISTENCE OF HAND
+//Start of testing by forcing player to move first
 
 /*
 typedef struct
@@ -30,9 +31,9 @@ static inline char *prtBool(enum fakeBool fB)
 }
 //traverses array start to end
 //writes each val to a temp string before joining with main string
-void prtCardArr(card *arr[], int len, char **dest)
+void prtCardArr(card *arr[], int8_t len, char **dest)
 {
-    for (int i = 0; i < len; i++)
+    for (int8_t i = 0; i < len; i++)
     {
         if (arr[i] != NULL)
         {
@@ -65,9 +66,9 @@ void printDebug(gameState *s)
 }
 
 //frees cardptr array by freeing each nonnull entry and then nulling
-void freeCardPtrArr(card *arr[], int len)
+void freeCardPtrArr(card *arr[], int8_t len)
 {
-    for (int i = 0; i < len; i++)
+    for (int8_t i = 0; i < len; i++)
     {
         if (arr[i] != NULL)
         {
@@ -77,7 +78,7 @@ void freeCardPtrArr(card *arr[], int len)
     }
 }
 
-//implict assumes turn has 2 states only
+//implict assumes turn has 2 states only TODO
 void switchTurn(gameState *s)
 {
     s->turn = (s->turn == PLAY) ? COMP : PLAY;
@@ -86,7 +87,7 @@ void switchTurn(gameState *s)
 int8_t boardScore(card *board[])
 {
     int8_t temp = 0;
-    for (int i = 0; i < FIELDSIZE; i++)
+    for (int8_t i = 0; i < FIELDSIZE; i++)
     {
         if (board[i] != NULL)
         {
@@ -108,6 +109,7 @@ void playDeck(gameState *s); //need deck? TODO
 void newRound(gameState *s)
 {
     // s->turn = //TODO
+    s->turn = PLAY;
     s->playScore = 0;
     s->compScore = 0;
     s->hasPlayStood = NO;
@@ -118,9 +120,9 @@ void newRound(gameState *s)
 }
 
 //Only called at init otherwise could cause memory leaks
-void fillNull(card *arr[], int size)
+void fillNull(card *arr[], int8_t size)
 {
-    for (int i = 0; i < size; i++)
+    for (int8_t i = 0; i < size; i++)
     {
         arr[i] = NULL;
     }
@@ -129,6 +131,7 @@ void initGame(gameState *s)
 {
     s->isOver = NO;
     // s->turn = ; //TODO
+    s->turn = PLAY;
     s->playScore = 0;
     s->compScore = 0;
     s->playWins = 0;
@@ -157,100 +160,29 @@ void quitGame(gameState *s)
 //(0 indexed, translation done by pazaak.c)
 // void playHand(uint8_t handIdx, gameState *s);
 
-void endTurn(gameState *s);
+void endTurn(gameState *s)
+{
+    recalcScore(s);
+}
 
 //change to stand?, Recalc Score, check winconds
 void stand(gameState *s)
 {
-    if (s->turn == PLAY)
+    recalcScore(s);
+    switch (checkConds(s, 0))
     {
-        if (s->hasPlayStood == YES)
-        {
-            //error
-            printf("play turn but play stood\n");
-        }
-        else if (s->hasCompStood == YES)
-        {
-            //do flip playstood, board full check and score check to get round winner
-        }
-        else if (s->hasCompStood == NO)
-        {
-            //do flip playstood
-        }
-        else
-        {
-            //error
-            printf("Error fallthrough else 0\n");
-        }
-    }
-    else if (s->turn == COMP)
-    {
-        if (s->hasCompStood == YES)
-        {
-            //error
-            printf("comp turn but comp stood\n");
-        }
-        else
-        {
-            switchTurn(s);
-            if (s->hasPlayStood == YES)
-            {
-                //board full check and score check to get round winner
-            }
-            else if (s->hasPlayStood == NO)
-            {
-                //
-            }
-            else
-            {
-                //error
-                printf("Error fallthrough else 1\n");
-            }
-        }
-    }
-    else
-    {
-        //error
-        printf("Error fallthrough else 2\n");
+    case -1: //loss, add win to other player, start new game
+
+        break;
+    case 0: //nothing, stand me and switch turns
+        break;
+    case 1: //win, happens with opponent already stood, add win to me, start new game.
+        break;
     }
 }
 
-//adds a point checking for game conds
-void addWin(gameState *s, enum turnTok tt)
+//checks win/loss conditions and gives int representing result, return 0 on none, -1 on loss, 1 on win
+int8_t checkConds(gameState *s, int8_t action) //action: 0 is stand, 1 is end turn, 2 is played card so if 20 end
 {
-    if (tt == PLAY)
-    {
-        if (s->playWins < 2)
-        {
-            s->playWins++;
-        }
-        else
-        {
-            s->isOver = YES;
-            printf("Player has won the match!\n");
-        }
-    }
-    else if (tt == COMP)
-    {
-        if (s->compWins < 2)
-        {
-            s->compWins++;
-        }
-        else
-        {
-            s->isOver = YES;
-            printf("Computer has won the match!\n");
-        }
-    }
-    else
-    {
-        //error
-        printf("Error fallthrough else 3\n");
-    }
-}
-
-//checks loss conditions
-void checkConds(gameState *s)
-{
-    //do something
+    return 0; //TODO
 }
