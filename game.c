@@ -34,9 +34,9 @@ static inline char *prtBool(enum fakeBool fB)
 //writes each val to a temp string before joining with main string
 char *prtCardArr(card *arr[], int len)
 {
-    // char retStr[1024] = "";
-    char *retStr = (char *)malloc(1024 * sizeof(char));
-    retStr = "";
+    char retStr[1024] = "";
+    // char *retStr = (char *)malloc(1024 * sizeof(char));
+    // retStr = "";
     // retStr = "!!";
     for (int i = 0; i < len; i++)
     {
@@ -51,7 +51,8 @@ char *prtCardArr(card *arr[], int len)
             strcat(retStr, "");
         }
     }
-    return retStr;
+    char *retPtr = retStr;
+    return retPtr;
 }
 // Prints out the game state as a long string
 void printDebug(gameState *s)
