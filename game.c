@@ -1,4 +1,5 @@
 #include "game.h"
+#include "card.h"
 
 //START OF TESTING BY IGNORING EXISTENCE OF HAND
 //Start of testing by forcing player to move first

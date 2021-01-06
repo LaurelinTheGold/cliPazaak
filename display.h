@@ -5,6 +5,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void draw(gameState *g);
+// void draw(gameState *g);
 
 #endif

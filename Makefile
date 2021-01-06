@@ -7,7 +7,7 @@ pazaak: pazaak.o game.o card.o
 pazaak.o: pazaak.c game.h card.h
 	$(CC) $(CFLAGS) -c pazaak.c
 
-game.o: game.c game.h
+game.o: game.c game.h card.h
 	$(CC) $(CFLAGS) -c game.c 
 
 card.o: card.c card.h
