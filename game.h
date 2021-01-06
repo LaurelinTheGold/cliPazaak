@@ -27,10 +27,10 @@ typedef struct
 {
     enum fakeBool isOver;
     enum turnTok turn;
-    int8_t playScore;
-    int8_t compScore;
-    uint8_t playWins;
-    uint8_t compWins;
+    int playScore;
+    int compScore;
+    int playWins;
+    int compWins;
     enum fakeBool hasPlayStood;
     enum fakeBool hasCompStood;
     enum fakeBool playBoardFull;
@@ -47,7 +47,7 @@ void freeGame(gameState *s);
 
 //plays hand card based on the turn of the game
 //(0 indexed, translation done by pazaak.c)
-// void playHand(uint8_t handIdx, gameState *s);
+// void playHand(int handIdx, gameState *s);
 
 void endTurn(gameState *s);
 void stand(gameState *s);

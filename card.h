@@ -8,9 +8,9 @@
 
 typedef struct
 {
-    int8_t value;
+    int value;
 } card;
 
-int8_t getValue(card *c);
+int getValue(card *c);
 
 #endif

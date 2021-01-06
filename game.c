@@ -9,10 +9,10 @@ typedef struct
 {
     enum fakeBool isOver;
     enum turnTok turn;
-    int8_t playScore;
-    int8_t compScore;
-    uint8_t playWins;
-    uint8_t compWins;
+    int playScore;
+    int compScore;
+    int playWins;
+    int compWins;
     enum fakeBool hasPlayStood;
     enum fakeBool hasCompStood;
     enum fakeBool playBoardFull;
@@ -32,9 +32,9 @@ static inline char *prtBool(enum fakeBool fB)
 }
 //traverses array start to end
 //writes each val to a temp string before joining with main string
-void prtCardArr(card *arr[], int8_t len, char **dest)
+void prtCardArr(card *arr[], int len, char **dest)
 {
-    for (int8_t i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)
     {
         if (arr[i] != NULL)
         {
@@ -67,9 +67,9 @@ void prtCardArr(card *arr[], int8_t len, char **dest)
 // }
 
 //frees cardptr array by freeing each nonnull entry and then nulling
-void freeCardPtrArr(card *arr[], int8_t len)
+void freeCardPtrArr(card *arr[], int len)
 {
-    for (int8_t i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)
     {
         if (arr[i] != NULL)
         {
@@ -85,10 +85,10 @@ void switchTurn(gameState *s)
     s->turn = (s->turn == PLAY) ? COMP : PLAY;
 }
 
-int8_t boardScore(card *board[])
+int boardScore(card *board[])
 {
-    int8_t temp = 0;
-    for (int8_t i = 0; i < FIELDSIZE; i++)
+    int temp = 0;
+    for (int i = 0; i < FIELDSIZE; i++)
     {
         if (board[i] != NULL)
         {
@@ -121,9 +121,9 @@ void newRound(gameState *s)
 }
 
 //Only called at init otherwise could cause memory leaks
-void fillNull(card *arr[], int8_t size)
+void fillNull(card *arr[], int size)
 {
-    for (int8_t i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)
     {
         arr[i] = NULL;
     }
@@ -158,7 +158,7 @@ void quitGame(gameState *s)
 }
 
 //checks win/loss conditions and gives int representing result, return 0 on none, -1 on loss, 1 on win
-int8_t checkConds(gameState *s, int8_t action) //action: 0 is stand, 1 is end turn, 2 is played card so if 20 end
+int checkConds(gameState *s, int action) //action: 0 is stand, 1 is end turn, 2 is played card so if 20 end
 {
     return 0; //TODO
 }
@@ -199,7 +199,7 @@ void addWin(gameState *s, enum turnTok tt)
 
 //plays hand card based on the turn of the game
 //(0 indexed, translation done by pazaak.c)
-// void playHand(uint8_t handIdx, gameState *s);
+// void playHand(int handIdx, gameState *s);
 
 void endTurn(gameState *s)
 {
