@@ -35,6 +35,7 @@ static inline char *prtBool(enum fakeBool fB)
 char *prtCardArr(card *arr[], int len)
 {
     char *retStr = (char *)malloc(1000 * sizeof(char));
+    retStr = "";
     for (int i = 0; i < len; i++)
     {
         if (arr[i] != NULL)
