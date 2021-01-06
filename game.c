@@ -48,9 +48,9 @@ void prtCardArr(card *arr[], int len, char *dest[])
 void printDebug(gameState *s)
 {
     char *dest1;
-    char dest2[1000];
-    char dest3[1000];
-    char dest4[1000];
+    char *dest2;
+    char *dest3;
+    char *dest4;
     prtCardArr(s->playBoard, FIELDSIZE, &dest1);
     prtCardArr(s->compBoard, FIELDSIZE, &dest2);
     // prtCardArr(s->playHand, HANDSIZE, &dest3);
