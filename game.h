@@ -33,10 +33,13 @@ typedef struct
     uint8_t compWins;
     enum fakeBool hasPlayStood;
     enum fakeBool hasCompStood;
+    enum fakeBool playBoardFull;
+    enum fakeBool compBoardFUll;
     card *playBoard[FIELDSIZE];
     card *compBoard[FIELDSIZE];
     // card *playHand[HANDSIZE];
     // card *compHand[HANDSIZE];
+    //DECK
 } gameState;
 
 void initGame(gameState *s);
