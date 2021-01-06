@@ -56,7 +56,8 @@ void printDebug(gameState *s)
     // prtCardArr(s->playHand, HANDSIZE, &dest3);
     // prtCardArr(s->compHand, HANDSIZE, &dest4);
     printf(
-        "over? %s turn? %s pScore:%d cScore:%d pWins:%d cWins%d\npStood? %s cStood? %s\npBoard: %s\n cBoard: %s\npHand: %s\n cHand: %s\n",
+        "over? %s turn? %s pScore:%d cScore:%d pWins:%d cWins%d\npStood? %s cStood? %s\npBoard: %s\n cBoard: %s\n",
+        // "pHand: %s\n cHand: %s\n",
         prtBool(s->isOver), (s->turn == PLAY) ? "PLAY" : "COMP",
         s->playScore, s->compScore, s->playWins, s->compWins,
         prtBool(s->hasPlayStood), prtBool(s->hasCompStood),
