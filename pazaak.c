@@ -6,7 +6,9 @@
 //gets the char from a string and splitting off newline
 char getCharFromString(char *str)
 {
-    return 'a'; //TODO
+    char action;
+    sscanf(str, "%c\n", &action);
+    return action; //TODO
 }
 
 //gets action by getting char from input str and doing the action
