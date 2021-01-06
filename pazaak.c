@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
     {
         printf("Controls: q quit, s stand, e end turn, 1 2 3 4 play hand\n");
         fgets(input, STDINBUFF, stdin);
+        printDebug(state);
         parseAction(input, state);
     }
     freeGame(state);

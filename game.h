@@ -53,4 +53,6 @@ void endTurn(gameState *s);
 void stand(gameState *s);
 void quitGame(gameState *s);
 
+void printDebug(gameState *s);
+
 #endif
