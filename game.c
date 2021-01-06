@@ -32,27 +32,27 @@ static inline char *prtBool(enum fakeBool fB)
 }
 //traverses array start to end
 //writes each val to a temp string before joining with main string
-void prtCardArr(card *arr[], int len, char *dest[])
+char *prtCardArr(card *arr[], int len)
 {
+    char *retStr = (char *)malloc(1000 * sizeof(char));
     for (int i = 0; i < len; i++)
     {
         if (arr[i] != NULL)
         {
             char cardStr[10];
             sprintf(cardStr, "%d ", arr[i]->value);
-            strcat(*dest, cardStr);
+            strcat(retStr, cardStr);
         }
     }
+    return retStr;
 }
 // Prints out the game state as a long string
 void printDebug(gameState *s)
 {
-    char *dest1;
-    char *dest2;
-    char *dest3;
-    char *dest4;
-    prtCardArr(s->playBoard, FIELDSIZE, &dest1);
-    prtCardArr(s->compBoard, FIELDSIZE, &dest2);
+    char *dest1 = prtCardArr(s->playBoard, FIELDSIZE);
+    char *dest2 = prtCardArr(s->compBoard, FIELDSIZE);
+    // char *dest3;
+    // char *dest4;
     // prtCardArr(s->playHand, HANDSIZE, &dest3);
     // prtCardArr(s->compHand, HANDSIZE, &dest4);
     printf(
@@ -63,6 +63,8 @@ void printDebug(gameState *s)
         prtBool(s->hasPlayStood), prtBool(s->hasCompStood),
         // dest1, dest2, dest3, dest4);
         dest1, dest2);
+    free(dest1);
+    free(dest2);
 }
 
 //frees cardptr array by freeing each nonnull entry and then nulling
