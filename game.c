@@ -157,6 +157,46 @@ void quitGame(gameState *s)
     s->isOver = YES;
 }
 
+//checks win/loss conditions and gives int representing result, return 0 on none, -1 on loss, 1 on win
+int8_t checkConds(gameState *s, int8_t action) //action: 0 is stand, 1 is end turn, 2 is played card so if 20 end
+{
+    return 0; //TODO
+}
+
+//adds a point checking for game conds
+void addWin(gameState *s, enum turnTok tt)
+{
+    if (tt == PLAY)
+    {
+        if (s->playWins < 2)
+        {
+            s->playWins++;
+        }
+        else
+        {
+            s->isOver = YES;
+            printf("Player has won the match!\n");
+        }
+    }
+    else if (tt == COMP)
+    {
+        if (s->compWins < 2)
+        {
+            s->compWins++;
+        }
+        else
+        {
+            s->isOver = YES;
+            printf("Computer has won the match!\n");
+        }
+    }
+    else
+    {
+        //error
+        printf("Error fallthrough else 3\n");
+    }
+}
+
 //plays hand card based on the turn of the game
 //(0 indexed, translation done by pazaak.c)
 // void playHand(uint8_t handIdx, gameState *s);
@@ -171,7 +211,7 @@ void endTurn(gameState *s)
     switch (checkConds(s, 1))
     {
     case -1: //loss, add win to other player, start new game, happens when over 20
-        addWin(s, (s->turn == PLAY) ? COMP : PLAY);
+        addWin(s, ((s->turn == PLAY) ? COMP : PLAY));
         newRound(s);
         break;
     case 0: //nothing, switch turns
@@ -213,45 +253,5 @@ void stand(gameState *s)
         addWin(s, (s->turn == COMP) ? COMP : PLAY);
         newRound(s);
         break;
-    }
-}
-
-//checks win/loss conditions and gives int representing result, return 0 on none, -1 on loss, 1 on win
-int8_t checkConds(gameState *s, int8_t action) //action: 0 is stand, 1 is end turn, 2 is played card so if 20 end
-{
-    return 0; //TODO
-}
-
-//adds a point checking for game conds
-void addWin(gameState *s, enum turnTok tt)
-{
-    if (tt == PLAY)
-    {
-        if (s->playWins < 2)
-        {
-            s->playWins++;
-        }
-        else
-        {
-            s->isOver = YES;
-            printf("Player has won the match!\n");
-        }
-    }
-    else if (tt == COMP)
-    {
-        if (s->compWins < 2)
-        {
-            s->compWins++;
-        }
-        else
-        {
-            s->isOver = YES;
-            printf("Computer has won the match!\n");
-        }
-    }
-    else
-    {
-        //error
-        printf("Error fallthrough else 3\n");
     }
 }
