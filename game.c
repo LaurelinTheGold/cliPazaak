@@ -103,7 +103,7 @@ void prntCard(card *c)
 // Prints out the game state as a long string
 void printDebug(gameState *s)
 {
-    printf("over? %s\n turn? %s\n pScore:%d cScore:%d\n pWins:%d cWins%d\npStood? %s cStood? %s\n",
+    printf("over? %s\nturn? %s\npScore:%d cScore:%d\npWins:%d cWins%d\npStood? %s cStood? %s\n",
            prtBool(s->isOver), prtTurn(s->turn),
            s->playScore, s->compScore, s->playWins, s->compWins,
            prtBool(s->hasPlayStood), prtBool(s->hasCompStood));
