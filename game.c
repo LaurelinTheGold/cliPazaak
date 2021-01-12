@@ -116,6 +116,7 @@ void printDebug(gameState *s)
     {
         printf("%d ", *(s->deck + i));
     }
+    printf("\n");
 }
 void delCard(card *c)
 {
