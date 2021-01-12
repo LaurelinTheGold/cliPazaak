@@ -36,11 +36,11 @@ int boardScore(card *board[])
     return temp;
 }
 //Recalculates Score. Do i want one person for both??
-// void recalcScore(gameState *s)
-// {
-//     s->playScore = boardScore(s->playBoard);
-//     s->compScore = boardScore(s->compBoard);
-// }
+void recalcScore(gameState *s)
+{
+    s->playScore = boardScore(s->playBoard);
+    s->compScore = boardScore(s->compBoard);
+}
 
 //check for full board
 void addCard(gameState *s);
