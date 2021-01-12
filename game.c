@@ -196,7 +196,7 @@ void addCard(gameState *s, card *c)
     }
     else
     {
-        if (s->compBoard == WINSCORE)
+        if (s->compScore == WINSCORE)
         {
             s->hasCompStood = YES;
         }

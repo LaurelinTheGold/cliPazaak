@@ -16,5 +16,6 @@ card *makeCard(int val)
     else
     {
         printf("ERROR MALLOC CARD FAIL!\n");
+        return NULL;
     }
 }
