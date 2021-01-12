@@ -184,7 +184,7 @@ void addWin(gameState *s, enum turnTok tt)
     }
 }
 
-//check for full board
+//check for full board, check for total points, autostand
 void addCard(gameState *s, card *c)
 {
     int i = 0;
@@ -235,15 +235,6 @@ void addCard(gameState *s, card *c)
     }
 }
 
-// plays card from deck, should check if total is 20 and if so, auto stand
-void playDeck(gameState *s) //need deck? TODO
-{
-    //add card from deck to current turn players board
-    //get score, if 20, auto stand
-    //done
-    addCard(s, getDeckCard(s));
-}
-
 //frees cardptr array by freeing each nonnull entry and then nulling
 void freeCardPtrArr(card *arr[], int len)
 {
@@ -277,6 +268,12 @@ void newRound(gameState *s)
     //do nothing with the hand between rounds
 }
 
+//structure of a turn
+void newTurn(gameState *s)
+{
+    addCard(s, getDeckCard(s));
+}
+
 //Only called at init otherwise could cause memory leaks
 void fillNull(card *arr[], int size)
 {
@@ -305,6 +302,7 @@ void initGame(gameState *s)
     fillNull(s->compBoard, FIELDSIZE);
     //TODO hand draft functionality
     initDeck(s);
+    addCard(s, getDeckCard(s));
 }
 
 void freeGame(gameState *s) //TODO also free either list elements or array entries
