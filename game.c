@@ -118,6 +118,7 @@ void printDebug(gameState *s)
     }
     printf("\n");
 }
+
 void delCard(card *c)
 {
     if (c != NULL)
@@ -126,6 +127,16 @@ void delCard(card *c)
         c = NULL;
     }
 }
+
+//frees cardptr array by freeing each nonnull entry and then nulling
+void freeCardPtrArr(card *arr[], int len)
+{
+    for (int i = 0; i < len; i++)
+    {
+        delCard(arr[i]);
+    }
+}
+
 int boardScore(card *board[])
 {
     int temp = 0;
@@ -144,12 +155,6 @@ void recalcScore(gameState *s)
     s->compScore = boardScore(s->compBoard);
 }
 
-//checks win/loss conditions and gives int representing result, return 0 on none, -1 on loss, 1 on win
-int checkConds(gameState *s, int action) //action: 0 is stand, 1 is end turn, 2 is played card so if 20 end
-{
-    return 0; //TODO
-}
-
 //adds a point checking for game conds
 void addWin(gameState *s, enum turnTok tt)
 {
@@ -165,7 +170,7 @@ void addWin(gameState *s, enum turnTok tt)
             printf("Player has won the match!\n");
         }
     }
-    else if (tt == COMP)
+    else
     {
         if (s->compWins < 2)
         {
@@ -176,11 +181,6 @@ void addWin(gameState *s, enum turnTok tt)
             s->isOver = YES;
             printf("Computer has won the match!\n");
         }
-    }
-    else
-    {
-        //error
-        printf("Error fallthrough else 3\n");
     }
 }
 
@@ -235,23 +235,16 @@ void addCard(gameState *s, card *c)
     }
 }
 
-//frees cardptr array by freeing each nonnull entry and then nulling
-void freeCardPtrArr(card *arr[], int len)
-{
-    for (int i = 0; i < len; i++)
-    {
-        if (arr[i] != NULL)
-        {
-            free(arr[i]);
-        }
-        arr[i] = NULL;
-    }
-}
-
 //implict assumes turn has 2 states only TODO, case on stood
 void switchTurn(gameState *s)
 {
     s->turn = (s->turn == PLAY) ? COMP : PLAY;
+}
+
+//TODO: checks win/loss conditions and gives int representing result, return 0 on none, -1 on loss, 1 on win
+int checkConds(gameState *s, int action) //action: 0 is stand, 1 is end turn, 2 is played card so if 20 end
+{
+    return 0; //TODO
 }
 
 //procs after a round ends
@@ -283,10 +276,6 @@ void fillNull(card *arr[], int size)
     }
 }
 
-//plays hand card based on the turn of the game
-//(0 indexed, translation done by pazaak.c)
-// void playHand(int handIdx, gameState *s);
-
 void initGame(gameState *s)
 {
     s->isOver = NO;
@@ -302,7 +291,7 @@ void initGame(gameState *s)
     fillNull(s->compBoard, FIELDSIZE);
     //TODO hand draft functionality
     initDeck(s);
-    addCard(s, getDeckCard(s));
+    newTurn(s);
 }
 
 void freeGame(gameState *s) //TODO also free either list elements or array entries
@@ -373,3 +362,7 @@ void stand(gameState *s)
         break;
     }
 }
+
+//plays hand card based on the turn of the game
+//(0 indexed, translation done by pazaak.c)
+// void playHand(int handIdx, gameState *s);
