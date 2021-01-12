@@ -10,10 +10,9 @@ only made real when needed. The only way to delete them involves
 freeing if not null then nulling them 
 */
 
-
 //helper bois
 
-// 
+//
 void delCard(card *c)
 {
     if (c != NULL)
@@ -54,65 +53,72 @@ void playDeck(gameState *s) //need deck? TODO
     //done
 }
 
-
-
-
-
-
-
-
 //for debugging
-static inline char *prtBool(enum fakeBool fB)
+char *prtBool(enum fakeBool fB)
 {
     return (fB == YES) ? "YES" : (fB == NO) ? "NO" : "ERROR fakeBool!!\n";
 }
+char *prtTurn(enum turnTok t)
+{
+    return (t == PLAY) ? "PLAY" : (t == COMP) ? "COMP" : "ERROR turnTok!!\n";
+}
 
-/* not quite working
+/* not quite working*/
 //traverses array start to end
 //writes each val to a temp string before joining with main string
-char *prtCardArr(card *arr[], int len)
+// char *prtCardArr(card *arr[], int len)
+// {
+//     char retStr[1024] = "";
+//     // char *retStr = (char *)malloc(1024 * sizeof(char));
+//     // retStr = "";
+//     // retStr = "!!";
+//     for (int i = 0; i < len; i++)
+//     {
+//         if (arr[i] != NULL)
+//         {
+//             char cardStr[10];
+//             sprintf(cardStr, "%d ", arr[i]->value);
+//             strcat(retStr, cardStr);
+//         }
+//         else
+//         {
+//             strcat(retStr, "");
+//         }
+//     }
+//     char *retPtr = retStr;
+//     return retPtr;
+// }
+
+void prntCard(card *c)
 {
-    char retStr[1024] = "";
-    // char *retStr = (char *)malloc(1024 * sizeof(char));
-    // retStr = "";
-    // retStr = "!!";
-    for (int i = 0; i < len; i++)
+    if (c != NULL)
     {
-        if (arr[i] != NULL)
-        {
-            char cardStr[10];
-            sprintf(cardStr, "%d ", arr[i]->value);
-            strcat(retStr, cardStr);
-        }
-        else
-        {
-            strcat(retStr, "");
-        }
+        printf("%d ", c->value);
     }
-    char *retPtr = retStr;
-    return retPtr;
+    else
+    {
+        printf("0 ");
+    }
 }
 // Prints out the game state as a long string
 void printDebug(gameState *s)
 {
-    char *dest1 = prtCardArr(s->playBoard, FIELDSIZE);
-    char *dest2 = prtCardArr(s->compBoard, FIELDSIZE);
-    // char *dest3;
-    // char *dest4;
-    // prtCardArr(s->playHand, HANDSIZE, &dest3);
-    // prtCardArr(s->compHand, HANDSIZE, &dest4);
-    printf(
-        "over? %s turn? %s pScore:%d cScore:%d pWins:%d cWins%d\npStood? %s cStood? %s\npBoard: %s\n cBoard: %s\n",
-        // "pHand: %s\n cHand: %s\n",
-        prtBool(s->isOver), (s->turn == PLAY) ? "PLAY" : "COMP",
-        s->playScore, s->compScore, s->playWins, s->compWins,
-        prtBool(s->hasPlayStood), prtBool(s->hasCompStood),
-        // dest1, dest2, dest3, dest4);
-        dest1, dest2);
-    // free(dest1);
-    // free(dest2);
+    printf("over? %s turn? %s pScore:%d cScore:%d pWins:%d cWins%d\npStood? %s cStood? %s\n",
+           prtBool(s->isOver), prtTurn(s->turn),
+           s->playScore, s->compScore, s->playWins, s->compWins,
+           prtBool(s->hasPlayStood), prtBool(s->hasCompStood));
+    printf("Player Board: ");
+    for (int i = 0; i < FIELDSIZE; i++)
+    {
+        prntCard(s->playBoard[i]);
+    }
+    printf("\nComputer Board: ");
+    for (int i = 0; i < FIELDSIZE; i++)
+    {
+        prntCard(s->compBoard[i]);
+    }
+    printf("\n");
 }
-*/
 
 //frees cardptr array by freeing each nonnull entry and then nulling
 void freeCardPtrArr(card *arr[], int len)
@@ -132,10 +138,6 @@ void switchTurn(gameState *s)
 {
     s->turn = (s->turn == PLAY) ? COMP : PLAY;
 }
-
-
-
-
 
 //procs after a round ends
 void newRound(gameState *s)
