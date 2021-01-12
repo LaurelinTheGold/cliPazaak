@@ -42,6 +42,8 @@ typedef struct
     //DECK
 } gameState;
 
+
+
 void initGame(gameState *s);
 void freeGame(gameState *s);
 

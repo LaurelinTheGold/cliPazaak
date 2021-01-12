@@ -4,32 +4,70 @@
 //START OF TESTING BY IGNORING EXISTENCE OF HAND
 //Start of testing by forcing player to move first
 
-/*
-typedef struct
-{
-    enum fakeBool isOver;
-    enum turnTok turn;
-    int playScore;
-    int compScore;
-    int playWins;
-    int compWins;
-    enum fakeBool hasPlayStood;
-    enum fakeBool hasCompStood;
-    enum fakeBool playBoardFull;
-    enum fakeBool compBoardFUll;
-    card *playBoard[FIELDSIZE];
-    card *compBoard[FIELDSIZE];
-    // card *playHand[HANDSIZE];
-    // card *compHand[HANDSIZE];
-    //DECK
-} gameState;
+/** Assumptions:
+When the bois are malloced, they are written with null pointers, and 
+only made real when needed. The only way to delete them involves
+freeing if not null then nulling them 
 */
+
+
+//helper bois
+
+// 
+void delCard(card *c)
+{
+    if (c != NULL)
+    {
+        free(c);
+        c = NULL;
+    }
+}
+// void nullStart()
+
+int boardScore(card *board[])
+{
+    int temp = 0;
+    for (int i = 0; i < FIELDSIZE; i++)
+    {
+        if (board[i] != NULL)
+        {
+            temp += board[i]->value;
+        }
+    }
+    return temp;
+}
+//Recalculates Score. Do i want one person for both??
+// void recalcScore(gameState *s)
+// {
+//     s->playScore = boardScore(s->playBoard);
+//     s->compScore = boardScore(s->compBoard);
+// }
+
+//check for full board
+void addCard(gameState *s);
+
+// plays card from deck, should check if total is 20 and if so, auto stand
+void playDeck(gameState *s) //need deck? TODO
+{
+    //add card from deck to current turn players board
+    //get score, if 20, auto stand
+    //done
+}
+
+
+
+
+
+
+
 
 //for debugging
 static inline char *prtBool(enum fakeBool fB)
 {
     return (fB == YES) ? "YES" : (fB == NO) ? "NO" : "ERROR fakeBool!!\n";
 }
+
+/* not quite working
 //traverses array start to end
 //writes each val to a temp string before joining with main string
 char *prtCardArr(card *arr[], int len)
@@ -74,6 +112,7 @@ void printDebug(gameState *s)
     // free(dest1);
     // free(dest2);
 }
+*/
 
 //frees cardptr array by freeing each nonnull entry and then nulling
 void freeCardPtrArr(card *arr[], int len)
@@ -94,26 +133,9 @@ void switchTurn(gameState *s)
     s->turn = (s->turn == PLAY) ? COMP : PLAY;
 }
 
-int boardScore(card *board[])
-{
-    int temp = 0;
-    for (int i = 0; i < FIELDSIZE; i++)
-    {
-        if (board[i] != NULL)
-        {
-            temp += board[i]->value;
-        }
-    }
-    return temp;
-}
-//Recalculates Score. Do i want one person for both??
-void recalcScore(gameState *s)
-{
-    s->playScore = boardScore(s->playBoard);
-    s->compScore = boardScore(s->compBoard);
-}
 
-void playDeck(gameState *s); //need deck? TODO
+
+
 
 //procs after a round ends
 void newRound(gameState *s)

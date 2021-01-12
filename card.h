@@ -12,5 +12,6 @@ typedef struct
 } card;
 
 int getValue(card *c);
+card *makeCard(int val);
 
 #endif
