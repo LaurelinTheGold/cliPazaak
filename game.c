@@ -114,7 +114,7 @@ void printDebug(gameState *s)
     printf("\n");
     for (int i = 0; i < DECKMULT * DECKRANGE; i++)
     {
-        printf("%d ", s->deck + i);
+        printf("%d ", *(s->deck + i));
     }
 }
 void delCard(card *c)
