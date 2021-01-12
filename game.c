@@ -1,5 +1,6 @@
 #include "game.h"
 #include "card.h"
+#include <stdlib.h>
 
 //START OF TESTING BY IGNORING EXISTENCE OF HAND
 //Start of testing by forcing player to move first
@@ -13,9 +14,78 @@ Only check for valid state on input actions and assume code works so won't
 go from valid to invalid by itself
 */
 
-//helper bois
+/* Arrange the N elements of ARRAY in random order.
+   Only effective if N is much smaller than RAND_MAX;
+   if this may not be the case, use a better random
+   number generator. */
+void shuffle(int *array, size_t n)
+{
+    if (n > 1)
+    {
+        size_t i;
+        for (i = 0; i < n - 1; i++)
+        {
+            size_t j = i + rand() / (RAND_MAX / (n - i) + 1);
+            int t = array[j];
+            array[j] = array[i];
+            array[i] = t;
+        }
+    }
+}
 
-//
+void initDeck(gameState *s)
+{
+    int *arrPtr = s->deck;
+    for (int i = 1; i <= DECKRANGE; i++)
+    {
+        for (int j = 0; j < DECKMULT; j++)
+        {
+            *arrPtr = i;
+            arrPtr++;
+        }
+    }
+    shuffle(s->deck, DECKRANGE * DECKMULT);
+}
+
+//helper bois
+char *prtBool(enum fakeBool fB)
+{
+    return (fB == YES) ? "YES" : "NO";
+}
+char *prtTurn(enum turnTok t)
+{
+    return (t == PLAY) ? "PLAY" : "COMP";
+}
+void prntCard(card *c)
+{
+    if (c != NULL)
+    {
+        printf("%d ", c->value);
+    }
+    else
+    {
+        printf("0 ");
+    }
+}
+// Prints out the game state as a long string
+void printDebug(gameState *s)
+{
+    printf("over? %s\nturn? %s\npScore:%d cScore:%d\npWins:%d cWins%d\npStood? %s cStood? %s\n",
+           prtBool(s->isOver), prtTurn(s->turn),
+           s->playScore, s->compScore, s->playWins, s->compWins,
+           prtBool(s->hasPlayStood), prtBool(s->hasCompStood));
+    printf("Player Board: ");
+    for (int i = 0; i < FIELDSIZE; i++)
+    {
+        prntCard(s->playBoard[i]);
+    }
+    printf("\nComputer Board: ");
+    for (int i = 0; i < FIELDSIZE; i++)
+    {
+        prntCard(s->compBoard[i]);
+    }
+    printf("\n");
+}
 void delCard(card *c)
 {
     if (c != NULL)
@@ -24,8 +94,6 @@ void delCard(card *c)
         c = NULL;
     }
 }
-// void nullStart()
-
 int boardScore(card *board[])
 {
     int temp = 0;
@@ -38,11 +106,50 @@ int boardScore(card *board[])
     }
     return temp;
 }
-//Recalculates Score. Do i want one person for both??
 void recalcScore(gameState *s)
 {
     s->playScore = boardScore(s->playBoard);
     s->compScore = boardScore(s->compBoard);
+}
+
+//checks win/loss conditions and gives int representing result, return 0 on none, -1 on loss, 1 on win
+int checkConds(gameState *s, int action) //action: 0 is stand, 1 is end turn, 2 is played card so if 20 end
+{
+    return 0; //TODO
+}
+
+//adds a point checking for game conds
+void addWin(gameState *s, enum turnTok tt)
+{
+    if (tt == PLAY)
+    {
+        if (s->playWins < 2)
+        {
+            s->playWins++;
+        }
+        else
+        {
+            s->isOver = YES;
+            printf("Player has won the match!\n");
+        }
+    }
+    else if (tt == COMP)
+    {
+        if (s->compWins < 2)
+        {
+            s->compWins++;
+        }
+        else
+        {
+            s->isOver = YES;
+            printf("Computer has won the match!\n");
+        }
+    }
+    else
+    {
+        //error
+        printf("Error fallthrough else 3\n");
+    }
 }
 
 //check for full board
@@ -105,73 +212,6 @@ void playDeck(gameState *s) //need deck? TODO
     addCard(s, getDeckCard(s));
 }
 
-//for debugging
-char *prtBool(enum fakeBool fB)
-{
-    return (fB == YES) ? "YES" : "NO";
-}
-char *prtTurn(enum turnTok t)
-{
-    return (t == PLAY) ? "PLAY" : "COMP";
-}
-
-/* not quite working*/
-//traverses array start to end
-//writes each val to a temp string before joining with main string
-// char *prtCardArr(card *arr[], int len)
-// {
-//     char retStr[1024] = "";
-//     // char *retStr = (char *)malloc(1024 * sizeof(char));
-//     // retStr = "";
-//     // retStr = "!!";
-//     for (int i = 0; i < len; i++)
-//     {
-//         if (arr[i] != NULL)
-//         {
-//             char cardStr[10];
-//             sprintf(cardStr, "%d ", arr[i]->value);
-//             strcat(retStr, cardStr);
-//         }
-//         else
-//         {
-//             strcat(retStr, "");
-//         }
-//     }
-//     char *retPtr = retStr;
-//     return retPtr;
-// }
-
-void prntCard(card *c)
-{
-    if (c != NULL)
-    {
-        printf("%d ", c->value);
-    }
-    else
-    {
-        printf("0 ");
-    }
-}
-// Prints out the game state as a long string
-void printDebug(gameState *s)
-{
-    printf("over? %s\nturn? %s\npScore:%d cScore:%d\npWins:%d cWins%d\npStood? %s cStood? %s\n",
-           prtBool(s->isOver), prtTurn(s->turn),
-           s->playScore, s->compScore, s->playWins, s->compWins,
-           prtBool(s->hasPlayStood), prtBool(s->hasCompStood));
-    printf("Player Board: ");
-    for (int i = 0; i < FIELDSIZE; i++)
-    {
-        prntCard(s->playBoard[i]);
-    }
-    printf("\nComputer Board: ");
-    for (int i = 0; i < FIELDSIZE; i++)
-    {
-        prntCard(s->compBoard[i]);
-    }
-    printf("\n");
-}
-
 //frees cardptr array by freeing each nonnull entry and then nulling
 void freeCardPtrArr(card *arr[], int len)
 {
@@ -213,6 +253,11 @@ void fillNull(card *arr[], int size)
         arr[i] = NULL;
     }
 }
+
+//plays hand card based on the turn of the game
+//(0 indexed, translation done by pazaak.c)
+// void playHand(int handIdx, gameState *s);
+
 void initGame(gameState *s)
 {
     s->isOver = NO;
@@ -236,55 +281,12 @@ void freeGame(gameState *s) //TODO also free either list elements or array entri
     // freeCardPtrArr(s->playHand, HANDSIZE);
     // freeCardPtrArr(s->compHand, HANDSIZE);
 }
+
 //main will take care of freeing from here
 void quitGame(gameState *s)
 {
     s->isOver = YES;
 }
-
-//checks win/loss conditions and gives int representing result, return 0 on none, -1 on loss, 1 on win
-int checkConds(gameState *s, int action) //action: 0 is stand, 1 is end turn, 2 is played card so if 20 end
-{
-    return 0; //TODO
-}
-
-//adds a point checking for game conds
-void addWin(gameState *s, enum turnTok tt)
-{
-    if (tt == PLAY)
-    {
-        if (s->playWins < 2)
-        {
-            s->playWins++;
-        }
-        else
-        {
-            s->isOver = YES;
-            printf("Player has won the match!\n");
-        }
-    }
-    else if (tt == COMP)
-    {
-        if (s->compWins < 2)
-        {
-            s->compWins++;
-        }
-        else
-        {
-            s->isOver = YES;
-            printf("Computer has won the match!\n");
-        }
-    }
-    else
-    {
-        //error
-        printf("Error fallthrough else 3\n");
-    }
-}
-
-//plays hand card based on the turn of the game
-//(0 indexed, translation done by pazaak.c)
-// void playHand(int handIdx, gameState *s);
 
 void endTurn(gameState *s)
 {

@@ -51,16 +51,24 @@ void parseAction(char *str, gameState *s)
 int main(int argc, char *argv[])
 {
     gameState *state = (gameState *)malloc(sizeof(gameState));
-    initGame(state);
-    char input[STDINBUFF];
-    while (state->isOver != YES)
+    if (state != NULL)
     {
-        printf("Controls: q quit, s stand, e end turn, 1 2 3 4 play hand\n");
-        fgets(input, STDINBUFF, stdin);
-        printDebug(state);
-        parseAction(input, state);
+        initGame(state);
+        char input[STDINBUFF];
+        while (state->isOver != YES)
+        {
+            printf("Controls: q quit, s stand, e end turn, 1 2 3 4 play hand\n");
+            fgets(input, STDINBUFF, stdin);
+            printDebug(state);
+            parseAction(input, state);
+        }
+        freeGame(state);
+        free(state);
+        return 0; //TODO
     }
-    freeGame(state);
-    free(state);
-    return 0; //TODO
+    else
+    {
+        printf("ERROR MALLOC GAMESTATE!!\n");
+        return 1;
+    }
 }
