@@ -112,6 +112,10 @@ void printDebug(gameState *s)
         prntCard(s->compBoard[i]);
     }
     printf("\n");
+    for (int i = 0; i < DECKMULT * DECKRANGE; i++)
+    {
+        printf("%d ", s->deck + i);
+    }
 }
 void delCard(card *c)
 {
@@ -299,6 +303,7 @@ void initGame(gameState *s)
     fillNull(s->playBoard, FIELDSIZE);
     fillNull(s->compBoard, FIELDSIZE);
     //TODO hand draft functionality
+    initDeck(s);
 }
 
 void freeGame(gameState *s) //TODO also free either list elements or array entries
