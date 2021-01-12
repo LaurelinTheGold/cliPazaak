@@ -10,6 +10,7 @@
 
 #define FIELDSIZE 9
 #define HANDSIZE 4
+#define WINSCORE 20
 
 enum turnTok
 {
@@ -41,8 +42,6 @@ typedef struct
     // card *compHand[HANDSIZE];
     //DECK
 } gameState;
-
-
 
 void initGame(gameState *s);
 void freeGame(gameState *s);

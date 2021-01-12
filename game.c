@@ -8,6 +8,9 @@
 When the bois are malloced, they are written with null pointers, and 
 only made real when needed. The only way to delete them involves
 freeing if not null then nulling them 
+
+Only check for valid state on input actions and assume code works so won't 
+go from valid to invalid by itself
 */
 
 //helper bois
@@ -43,7 +46,55 @@ void recalcScore(gameState *s)
 }
 
 //check for full board
-void addCard(gameState *s);
+void addCard(gameState *s, card *c)
+{
+    int i = 0;
+    if (s->turn == PLAY)
+    {
+        while (s->playBoard[i] != NULL)
+        {
+            i++;
+        }
+        if (i < FIELDSIZE)
+        {
+            s->playBoard[i] = c;
+        }
+        else
+        {
+            printf("ERROR, Board Full Player!!\n");
+        }
+    }
+    else
+    {
+        while (s->compBoard[i] != NULL)
+        {
+            i++;
+        }
+        if (i < FIELDSIZE)
+        {
+            s->compBoard[i] = c;
+        }
+        else
+        {
+            printf("ERROR, Board Full Computer!!\n");
+        }
+    }
+    recalcScore(s);
+    if (s->turn == PLAY)
+    {
+        if (s->playScore == WINSCORE)
+        {
+            s->hasPlayStood = YES;
+        }
+    }
+    else
+    {
+        if (s->compBoard == WINSCORE)
+        {
+            s->hasCompStood = YES;
+        }
+    }
+}
 
 // plays card from deck, should check if total is 20 and if so, auto stand
 void playDeck(gameState *s) //need deck? TODO
@@ -51,16 +102,17 @@ void playDeck(gameState *s) //need deck? TODO
     //add card from deck to current turn players board
     //get score, if 20, auto stand
     //done
+    addCard(s, getDeckCard(s));
 }
 
 //for debugging
 char *prtBool(enum fakeBool fB)
 {
-    return (fB == YES) ? "YES" : (fB == NO) ? "NO" : "ERROR fakeBool!!\n";
+    return (fB == YES) ? "YES" : "NO";
 }
 char *prtTurn(enum turnTok t)
 {
-    return (t == PLAY) ? "PLAY" : (t == COMP) ? "COMP" : "ERROR turnTok!!\n";
+    return (t == PLAY) ? "PLAY" : "COMP";
 }
 
 /* not quite working*/
