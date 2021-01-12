@@ -47,6 +47,33 @@ void initDeck(gameState *s)
     shuffle(s->deck, DECKRANGE * DECKMULT);
 }
 
+card *getDeckCard(gameState *s)
+{
+    int i = 0;
+    while (s->deck[i] == 0)
+    {
+        i++;
+    }
+    if (i < DECKRANGE * DECKMULT)
+    {
+        card *myCard = makeCard(s->deck[i]);
+        if (myCard != NULL)
+        {
+            s->deck[i] = 0;
+        }
+        else
+        {
+            printf("error: card malloc returned null\n");
+        }
+        return myCard;
+    }
+    else
+    {
+        printf("ERROR: Deck Used UP!!\n");
+        return NULL;
+    }
+}
+
 //helper bois
 char *prtBool(enum fakeBool fB)
 {
